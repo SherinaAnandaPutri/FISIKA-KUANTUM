@@ -2,28 +2,29 @@ import numpy as np
 from sklearn.ensemble import RandomForestRegressor
 import joblib
 
-# ============================
-#   ANALYTIC ENERGY MODEL
-# ============================
-def analytic_energy(L):
-    hbar = 1.0545718e-34
-    m = 9.10938356e-31
-    L_m = L * 1e-9
-    En = (np.pi**2 * hbar**2) / (2 * m * L_m**2)
-    return En / 1.60218e-19  # eV
+# Contoh data (potensial tak hingga 1D)
+L = 1.0
+x = np.linspace(0.01, 0.99, 1000).reshape(-1, 1)
 
-# Generate dataset
-L_values = np.linspace(0.1, 5.0, 500)
-E_values = np.array([analytic_energy(L) for L in L_values])
+# Energi dasar teoritis untuk sumur tak hingga 1D
+hbar = 1
+m = 1
+n = 1
+energies = (n * np.pi / L)**2 * (hbar**2) / (2 * m)
 
-X = L_values.reshape(-1, 1)
-y = E_values
+# Buat data target (konstan)
+y = np.repeat(energies, len(x))
 
-# Train Random Forest model
-model = RandomForestRegressor(n_estimators=500, random_state=42)
-model.fit(X, y)
+# Model random forest
+model = RandomForestRegressor(
+    n_estimators=200,
+    max_depth=6,
+    random_state=42
+)
 
-# Save model
+model.fit(x, y)
+
+# Simpan model
 joblib.dump(model, "rf_infinite_well_model.joblib")
+print("Model berhasil disimpan sebagai rf_infinite_well_model.joblib")
 
-print("Model ML berhasil dibuat dan disimpan.")
