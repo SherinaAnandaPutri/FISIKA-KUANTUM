@@ -6,16 +6,19 @@ st.set_page_config(page_title="Simulasi Fisika Kuantum", layout="wide")
 
 st.title("🔷 Simulasi Fisika Kuantum: 1D Infinite Potential Well")
 
-st.write("""
-Simulasi ini memodelkan fungsi gelombang partikel dalam sumur potensial tak-hingga 1 dimensi.
+st.write(
+    """
+Simulasi ini memodelkan fungsi gelombang partikel dalam sumur potensial tak hingga 1 dimensi.
+
 Persamaan yang digunakan:
 
-- Fungsi gelombang:  
-  \\( \psi_n(x) = \sqrt{\frac{2}{L}} \sin\left(\frac{n\pi x}{L}\right) \\)
+**Fungsi gelombang:**
+ψₙ(x) = √(2/L) · sin(nπx/L)
 
-- Energi:  
-  \\( E_n = \frac{n^2 \pi^2 \hbar^2}{2mL^2} \\)
-""")
+**Energi:**
+Eₙ = (n²π²ħ²) / (2mL²)
+"""
+)
 
 # Sidebar
 st.sidebar.header("⚙️ Pengaturan Simulasi")
@@ -37,22 +40,22 @@ E = (n**2 * np.pi**2 * hbar**2) / (2 * m * L**2)
 
 # Plot 1 – Wave Function
 fig1 = go.Figure()
-fig1.add_trace(go.Scatter(x=x, y=psi, mode='lines', name='ψ(x)'))
+fig1.add_trace(go.Scatter(x=x, y=psi, mode="lines"))
 fig1.update_layout(
     title=f"Fungsi Gelombang ψ(x) untuk n = {n}",
     xaxis_title="x (meter)",
     yaxis_title="ψ(x)",
-    template="plotly_white"
+    template="plotly_white",
 )
 
 # Plot 2 – Probability Density
 fig2 = go.Figure()
-fig2.add_trace(go.Scatter(x=x, y=prob, mode='lines', name='|ψ(x)|²'))
+fig2.add_trace(go.Scatter(x=x, y=prob, mode="lines"))
 fig2.update_layout(
     title=f"Densitas Probabilitas |ψ(x)|² untuk n = {n}",
     xaxis_title="x (meter)",
     yaxis_title="|ψ(x)|²",
-    template="plotly_white"
+    template="plotly_white",
 )
 
 st.subheader("📈 Fungsi Gelombang")
@@ -61,4 +64,4 @@ st.plotly_chart(fig1, use_container_width=True)
 st.subheader("📊 Densitas Probabilitas")
 st.plotly_chart(fig2, use_container_width=True)
 
-st.info(f"🔹 Energi Level ke-{n}: **{E:.3e} Joule**")
+st.success(f"🔹 Energi Level ke-{n}: {E:.3e} Joule")
