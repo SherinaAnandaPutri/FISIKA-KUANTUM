@@ -1,0 +1,29 @@
+import numpy as np
+from sklearn.ensemble import RandomForestRegressor
+import joblib
+
+# ============================
+#   ANALYTIC ENERGY MODEL
+# ============================
+def analytic_energy(L):
+    hbar = 1.0545718e-34
+    m = 9.10938356e-31
+    L_m = L * 1e-9
+    En = (np.pi**2 * hbar**2) / (2 * m * L_m**2)
+    return En / 1.60218e-19  # eV
+
+# Generate dataset
+L_values = np.linspace(0.1, 5.0, 500)
+E_values = np.array([analytic_energy(L) for L in L_values])
+
+X = L_values.reshape(-1, 1)
+y = E_values
+
+# Train Random Forest model
+model = RandomForestRegressor(n_estimators=500, random_state=42)
+model.fit(X, y)
+
+# Save model
+joblib.dump(model, "rf_infinite_well_model.joblib")
+
+print("Model ML berhasil dibuat dan disimpan.")
